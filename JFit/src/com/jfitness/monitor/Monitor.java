@@ -24,8 +24,8 @@ public abstract class Monitor {
 	}
 	
 	
-	float findDegreeOfMembership(float x, float m, float b){
-		return m*x +b;
+	float findDegreeOfMembership(float x, float []mAndB){
+		return mAndB[0]*x +mAndB[1];
 	}
 	
 	//remember: y = xm + b
