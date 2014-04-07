@@ -112,7 +112,7 @@ public class WalkingMonitor extends Monitor {
 			mAndB = findLinearFunction(speedInput, 1, averageSpeed, 0);
 			membershipAverage = findDegreeOfMembership(speedInput, mAndB);
 			
-			membershipGood = findLinearFunction(speedInput, 0, averageSpeed, 1);
+			mAndB = findLinearFunction(speedInput, 0, averageSpeed, 1);
 			membershipGood = findDegreeOfMembership(speedInput, mAndB);
 		}
 		
