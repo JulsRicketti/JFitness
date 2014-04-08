@@ -4,19 +4,47 @@ package com.jfitness.monitor;
 
 public class WalkingMonitor extends Monitor {
 	
+	//set names
+	static final String BAD = "bad";
+	static final String AVERAGE = "average";
+	static final String GOOD = "good";
+	
+	//distance definitions 
 	static final float weeklyMinDistance = 5500;
 	static final float dailyMinDistance = weeklyMinDistance/7;
 	static final float goodDistance = 1000;
 	
+	static float averageSpeed; //I have to get this information from the user's profile
+	
+	FuzzySet timeSet, distanceSet, speedSet;
 	@Override
-	public void fuzzifier() {
+	public void fuzzifier(float timeInput, float distanceInput, float speedInput) {
 		// TODO Auto-generated method stub
+		if(timeInput>0){
+			timeSet = timeFuzzifier(timeInput);
+		}
+		else{
+			timeSet = new FuzzySet("INVALID", 0);
+		}
+		if(distanceInput>0){
+			distanceSet = distanceFuzzifier(distanceInput);
+		}
+		else{
+			distanceSet = new FuzzySet("INVALID", 0);
+		}
+		if(speedInput>0){
+			speedSet = speedFuzzifier(speedInput, averageSpeed);
+		}
+		else{
+			speedSet = new FuzzySet("INVALID", 0);
+		}
 
 	}
 
-	void timeFuzzifier(float timeInput){
+	FuzzySet timeFuzzifier(float timeInput){
+		FuzzySet result;
 		float []mAndB = new float[2];
-		float membershipBad, membershipAverage, membershipGood;
+		float membershipBad=0, membershipAverage=0, membershipGood=0;
 		
 		if(timeInput<=15){
 			membershipBad = 1;
@@ -52,11 +80,17 @@ public class WalkingMonitor extends Monitor {
 			membershipGood=1;
 		}
 		
+		result = max( membershipBad, BAD, membershipAverage, AVERAGE);
+		result = max(membershipGood, GOOD, result.getDegreeOfMembership(), result.getName());
+				
+		return result;
+		
 	}
 	
-	void distanceFuzzifier(float distanceInput){
+	FuzzySet distanceFuzzifier(float distanceInput){
+		FuzzySet result;
 		float []mAndB = new float[2];
-		float membershipBad, membershipAverage, membershipGood;
+		float membershipBad=0, membershipAverage=0, membershipGood=0;
 		if(distanceInput<=dailyMinDistance/2){
 			membershipBad = 1;
 			membershipAverage = 0;
@@ -85,12 +119,19 @@ public class WalkingMonitor extends Monitor {
 			membershipAverage=0;
 			membershipGood=1;
 		}
+		
+		result = max( membershipBad, BAD, membershipAverage, AVERAGE);
+		result = max(membershipGood, GOOD, result.getDegreeOfMembership(), result.getName());
+				
+		return result;
+		
 	}
 	
 	//obs: average speed will depend on the user, so I have to find a way to get that!
-	void speedFuzzifier(float speedInput, float averageSpeed){
+	FuzzySet speedFuzzifier(float speedInput, float averageSpeed){
+		FuzzySet result;
 		float []mAndB = new float[2];
-		float membershipBad, membershipAverage, membershipGood;
+		float membershipBad=0, membershipAverage=0, membershipGood=0;
 		if(speedInput<averageSpeed){
 			mAndB = findLinearFunction(speedInput, 1, averageSpeed, 0);
 			membershipBad = findDegreeOfMembership(speedInput, mAndB);
@@ -116,15 +157,44 @@ public class WalkingMonitor extends Monitor {
 			membershipGood = findDegreeOfMembership(speedInput, mAndB);
 		}
 		
-		//I think I need one more for membershipGood = 1;
+		if(speedInput>=2*averageSpeed){
+			membershipBad=0;
+			membershipAverage=0;
+			membershipGood=1;
+		}
+		
+		result = max( membershipBad, BAD, membershipAverage, AVERAGE);
+		result = max(membershipGood, GOOD, result.getDegreeOfMembership(), result.getName());
+				
+		return result;
 	}
 	
 	@Override
 	public void fuzzyRules() {
 		// TODO Auto-generated method stub
-		
+		FuzzySet output;
+		output = max(timeSet, distanceSet); //when both of them belong to the same set, the results will be in that set
+		if(timeSet.getName().equals(GOOD) && distanceSet.getName().equals(BAD)){
+			output.setName(AVERAGE);
+		}
+		if(timeSet.getName().equals(GOOD) && distanceSet.getName().equals(AVERAGE)){
+			output.setName(GOOD);
+		}
+		if(timeSet.getName().equals(AVERAGE) && distanceSet.getName().equals(GOOD)){
+			output.setName(GOOD);
+		}
+		if(timeSet.getName().equals(AVERAGE) && distanceSet.getName().equals(BAD)){
+			output.setName(BAD);
+		}
+		if(timeSet.getName().equals(BAD) && distanceSet.getName().equals(GOOD)){
+			output.setName(AVERAGE);
+		}
+		if(timeSet.getName().equals(BAD) && distanceSet.getName().equals(AVERAGE)){
+			output.setName(BAD);
+		}
 	}
 
+	
 	@Override
 	public void inferenceEngine() {
 		// TODO Auto-generated method stub

@@ -2,17 +2,63 @@ package com.jfitness.monitor;
 
 public abstract class Monitor {
 	
-	abstract void fuzzifier();
+	public class FuzzySet{
+		String name;
+		float degreeOfMembership;
+		
+		FuzzySet(String name, float degreeOfMembership){
+			this.name = name;
+			this.degreeOfMembership = degreeOfMembership;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public float getDegreeOfMembership() {
+			return degreeOfMembership;
+		}
+
+		public void setDegreeOfMembership(float degreeOfMembership) {
+			this.degreeOfMembership = degreeOfMembership;
+		}
+	}
+	
+	abstract void fuzzifier(float timeInput, float distanceInput, float speedInput);
 	abstract void fuzzyRules();
 	abstract void inferenceEngine();
 	abstract void deffuzifier();
 	
 	
-	float min(float input1, float input2){
-		if(input1<=input2)
-			return input1;
+	FuzzySet min(float input1, String name1, float input2, String name2){
+		FuzzySet fuzzySet1 = new FuzzySet(name1, input1);
+		FuzzySet fuzzySet2 = new FuzzySet(name2, input2);
+		if(fuzzySet1.getDegreeOfMembership()<=fuzzySet2.getDegreeOfMembership())
+			return fuzzySet1;
 		else
-			return input2;
+			return fuzzySet2;
+		
+	}
+	
+	FuzzySet max(float input1, String name1, float input2, String name2){
+		FuzzySet fuzzySet1 = new FuzzySet(name1, input1);
+		FuzzySet fuzzySet2 = new FuzzySet(name2, input2);
+		if(fuzzySet1.getDegreeOfMembership()>=fuzzySet2.getDegreeOfMembership())
+			return fuzzySet1;
+		else
+			return fuzzySet2;
+		
+	}
+	
+	FuzzySet max(FuzzySet fuzzySet1, FuzzySet fuzzySet2){
+		if(fuzzySet1.getDegreeOfMembership()>=fuzzySet2.getDegreeOfMembership())
+			return fuzzySet1;
+		else
+			return fuzzySet2;
 		
 	}
 	

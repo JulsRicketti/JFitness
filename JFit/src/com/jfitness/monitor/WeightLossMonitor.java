@@ -4,7 +4,7 @@ public class WeightLossMonitor extends Monitor {
 
 	
 	@Override
-	public void fuzzifier() {
+	public void fuzzifier(float timeInput, float distanceInput, float speedInput) {
 		// TODO Auto-generated method stub
 		
 	}
