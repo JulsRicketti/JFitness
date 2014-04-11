@@ -23,7 +23,7 @@ public class RunningMonitor extends Monitor {
 	}
 
 	@Override
-	public void deffuzifier() {
+	public void defuzzifier() {
 		// TODO Auto-generated method stub
 		
 	}

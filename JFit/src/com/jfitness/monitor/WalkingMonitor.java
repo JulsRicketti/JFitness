@@ -33,6 +33,11 @@ public class WalkingMonitor extends Monitor {
 	FuzzySet[] distanceSet;
 	HashMap <String, FuzzySet> timeMap;
 	HashMap <String, FuzzySet>distanceMap;
+	
+	FuzzySet[] auxOutputs; //just for now
+	FuzzySet insufficientOutputs;
+	FuzzySet averageOutputs;
+	FuzzySet sufficientOutputs;
 	@Override
 	public void fuzzifier(float timeInput, float distanceInput, float speedInput) {
 		FuzzySet []timeFuzzySet = new FuzzySet[3];
@@ -142,11 +147,7 @@ public class WalkingMonitor extends Monitor {
 			membershipAverage=0;
 			membershipGood=1;
 		}
-		
-//		result = max( membershipBad, BAD, membershipAverage, AVERAGE);
-//		result = max(membershipGood, GOOD, result.getDegreeOfMembership(), result.getName());
-//				
-//		return result;
+
 		FuzzySet[] distanceInputs = new FuzzySet[3];
 		distanceInputs [0]= new FuzzySet(BAD, membershipBad);
 		distanceInputs[0].setInterval(badInterval);
@@ -154,8 +155,7 @@ public class WalkingMonitor extends Monitor {
 		distanceInputs[1].setInterval(averageInterval);
 		distanceInputs [2] = new FuzzySet(GOOD, membershipGood);
 		distanceInputs[2].setInterval(goodInterval);
-		
-		
+				
 		distanceMap.put(BAD, distanceInputs[0]);
 		distanceMap.put(AVERAGE, distanceInputs[1]);
 		distanceMap.put(GOOD,distanceInputs[2]);
@@ -218,17 +218,33 @@ public class WalkingMonitor extends Monitor {
 		outputs[6] = new FuzzySet(INSUFFICIENT, min(timeMap.get(AVERAGE).getDegreeOfMembership(), distanceMap.get(BAD).getDegreeOfMembership()));
 		outputs[7] = new FuzzySet(AVERAGE_SUFICIENT, min(timeMap.get(BAD).getDegreeOfMembership(), distanceMap.get(GOOD).getDegreeOfMembership()));
 		outputs[8] = new FuzzySet(INSUFFICIENT, min(timeMap.get(BAD).getDegreeOfMembership(), distanceMap.get(AVERAGE).getDegreeOfMembership()));
+	
+		auxOutputs = outputs;
 	}
 
-	
 	@Override
 	public void inferenceEngine() {
-		// TODO Auto-generated method stub
+		// now we will choose the rules that will be use:
+		//Insufficient ones:
+		insufficientOutputs = max(auxOutputs[0], auxOutputs[6]);
+		insufficientOutputs = max(insufficientOutputs, auxOutputs[8]);
 		
+		//Average ones:
+		averageOutputs = max(auxOutputs[1], auxOutputs[3]);
+		averageOutputs = max(averageOutputs, auxOutputs[7]);
+		
+		//Sufficient ones:
+		sufficientOutputs = max(auxOutputs[2], auxOutputs[4]);
+		sufficientOutputs = max(sufficientOutputs, auxOutputs[5]);
 	}
 
+	float findIntervals(FuzzySet output){
+		
+		return 0;
+	}
+	
 	@Override
-	public void deffuzifier() {
+	public void defuzzifier() {
 		// TODO Auto-generated method stub
 		
 		

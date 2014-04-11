@@ -43,7 +43,7 @@ public abstract class Monitor {
 	abstract void fuzzifier(float timeInput, float distanceInput, float speedInput);
 	abstract void fuzzyRules(FuzzySet[] inputSet);
 	abstract void inferenceEngine();
-	abstract void deffuzifier();
+	abstract void defuzzifier();
 	
 	float min(float input1, float input2){
 		if(input1<=input2)
