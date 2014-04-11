@@ -5,6 +5,8 @@ public abstract class Monitor {
 	public class FuzzySet{
 		String name;
 		float degreeOfMembership;
+		float []interval = new float[2];
+		
 		
 		FuzzySet(String name, float degreeOfMembership){
 			this.name = name;
@@ -26,13 +28,29 @@ public abstract class Monitor {
 		public void setDegreeOfMembership(float degreeOfMembership) {
 			this.degreeOfMembership = degreeOfMembership;
 		}
+
+		public float[] getInterval() {
+			return interval;
+		}
+
+		public void setInterval(float[] interval) {
+			this.interval = interval;
+		}
+		
+		
 	}
 	
 	abstract void fuzzifier(float timeInput, float distanceInput, float speedInput);
-	abstract void fuzzyRules();
+	abstract void fuzzyRules(FuzzySet[] inputSet);
 	abstract void inferenceEngine();
 	abstract void deffuzifier();
 	
+	float min(float input1, float input2){
+		if(input1<=input2)
+			return input1;
+		else
+			return input2;
+	}
 	
 	FuzzySet min(float input1, String name1, float input2, String name2){
 		FuzzySet fuzzySet1 = new FuzzySet(name1, input1);

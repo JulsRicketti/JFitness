@@ -12,4 +12,5 @@ public class Mediator {
 	Monitor monitor;
 	Analyse analyses;
 	
+	
 }

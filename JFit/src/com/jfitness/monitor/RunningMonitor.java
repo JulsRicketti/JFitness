@@ -1,5 +1,7 @@
 package com.jfitness.monitor;
 
+import com.jfitness.monitor.Monitor.FuzzySet;
+
 public class RunningMonitor extends Monitor {
 
 	@Override
@@ -9,7 +11,7 @@ public class RunningMonitor extends Monitor {
 	}
 
 	@Override
-	public void fuzzyRules() {
+	public void fuzzyRules(FuzzySet[] inputSet) {
 		// TODO Auto-generated method stub
 		
 	}
