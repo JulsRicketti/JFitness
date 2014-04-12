@@ -33,7 +33,7 @@ public class History {
 		return dbAdapter.isEmpty(DatabaseAdapter.WEIGHT_LOSS_HISTORY_TABLE);
 	}
 	
-	ActivityHistory getWalkerHistory(Context context){
+	public ActivityHistory getWalkerHistory(Context context){
 		dbAdapter = new DatabaseAdapter(context);
 		dbAdapter.open();
 		
@@ -49,7 +49,7 @@ public class History {
 		}
 	}
 	
-	ActivityHistory getRunnerHistory(Context context){
+	public ActivityHistory getRunnerHistory(Context context){
 		dbAdapter = new DatabaseAdapter(context);
 		dbAdapter.open();
 		
@@ -64,7 +64,7 @@ public class History {
 		}
 	}
 	
-	ActivityHistory getHistory(String tableName){
+	public ActivityHistory getHistory(String tableName){
 		
 		Cursor history = dbAdapter.getAllData(tableName);
 		ActivityHistory activity = new ActivityHistory();

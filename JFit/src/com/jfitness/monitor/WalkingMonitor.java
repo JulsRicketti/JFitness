@@ -238,16 +238,29 @@ public class WalkingMonitor extends Monitor {
 		sufficientOutputs = max(sufficientOutputs, auxOutputs[5]);
 	}
 
-	float findIntervals(FuzzySet output){
-		
-		return 0;
-	}
 	
+	//check this out! (it can't be right...)
 	@Override
 	public void defuzzifier() {
-		// TODO Auto-generated method stub
+		//COG = sum(W*x)/sum(W)
+		///we need to find the intervals of each one to find the X
+//		float interval1, interval2, interval3;
+//		if(insufficientOutputs.getDegreeOfMembership()>=averageOutputs.getDegreeOfMembership()){
+//			interval1 = average_bad; 
+//		}
+//		else
+//			interval1 = poor;
+//		if(averageOutputs.getDegreeOfMembership()>=sufficientOutputs.getDegreeOfMembership()){
+//			interval2 = average_good;
+//			interval3 = perfect;
+//		}
+//		else{
+//			interval2 = perfect;
+//			interval3 = perfect;
+//		}
 		
-		
+//		float cog = (insufficientOutputs.getDegreeOfMembership()*interval1 + averageOutputs.getDegreeOfMembership()*interval2 + sufficientOutputs.getDegreeOfMembership()*interval3);
+//		cog = cog/(insufficientOutputs.getDegreeOfMembership() + averageOutputs.getDegreeOfMembership()+sufficientOutputs.getDegreeOfMembership());		
 	}
 
 }

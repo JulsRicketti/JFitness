@@ -87,6 +87,11 @@ public abstract class Monitor {
 			return input2;
 	}
 	
+	//x = (y-b)/m
+	//remember mAndB[0]->m mAndB[1]->b
+	float findInterval(float y, float []mAndB){
+		return (y-mAndB[1])/mAndB[0];
+	}
 	
 	float findDegreeOfMembership(float x, float []mAndB){
 		return mAndB[0]*x +mAndB[1];
