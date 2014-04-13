@@ -15,6 +15,13 @@ import com.jfitness.recommend.WalkingRecommend;
 
 public class Mediator {
 
+	public ArrayList <String> recommendationDateHistory = new ArrayList<String>();
+	public ArrayList <String> recommendationHistory= new ArrayList<String>();
+	public ArrayList <String> activityDateHistory= new ArrayList<String>();
+	public ArrayList <String> activityHistory= new ArrayList<String>();
+	public ArrayList <String> analysesHistory= new ArrayList<String>();
+	
+	
 	History history;
 	Recommend recommendation;
 	Monitor monitor;
@@ -27,16 +34,56 @@ public class Mediator {
 		this.monitor = new WalkingMonitor();
 	}
 	
-	ActivityHistory getWalkingHistory(Context context){
-		return history.getWalkerHistory(context);
+	
+	//get all history functions
+	 void setWalkingHistory(Context context){
+		recommendationHistory = history.getWalkerHistory(context).recommendation;
+		recommendationDateHistory = history.getWalkerHistory(context).recommendationDate;
+		activityHistory = history.getWalkerHistory(context).activity;
+		activityDateHistory = history.getWalkerHistory(context).activityDate;
+		analysesHistory = history.getWalkerHistory(context).analyses;
+		
 	}
 	
-	ActivityHistory getRunningHistory(Context context){
-		return history.getRunnerHistory(context);
+	 void setRunningHistory(Context context){
+		 recommendationHistory = history.getRunnerHistory(context).recommendation;
+		 recommendationDateHistory = history.getRunnerHistory(context).recommendationDate;
+		 activityHistory = history.getRunnerHistory(context).activity;
+		 activityDateHistory = history.getRunnerHistory(context).activityDate;
+		 analysesHistory = history.getRunnerHistory(context).analyses;
 	}
 	
-	ActivityHistory getWeightLossHistory(Context context){
-		return history.getHistory("WeightLossHistoryTable");
+	 void setWeightLossHistory(Context context){
+		 recommendationHistory = history.getHistory("WeightLossHistoryTable").recommendation;
+		 recommendationDateHistory = history.getHistory("WeightLossHistoryTable").recommendationDate;
+		 activityHistory = history.getHistory("WeightLossHistoryTable").activity;
+		 activityDateHistory = history.getHistory("WeightLossHistoryTable").activityDate;
+		 analysesHistory = history.getHistory("WeightLossHistoryTable").analyses;
+	}
+
+
+	public ArrayList<String> getRecommendationDateHistory() {
+		return recommendationDateHistory;
+	}
+
+
+	public ArrayList<String> getRecommendationHistory() {
+		return recommendationHistory;
+	}
+
+
+	public ArrayList<String> getActivityDateHistory() {
+		return activityDateHistory;
+	}
+
+
+	public ArrayList<String> getActivityHistory() {
+		return activityHistory;
+	}
+
+
+	public ArrayList<String> getAnalysesHistory() {
+		return analysesHistory;
 	}
 	
 }
