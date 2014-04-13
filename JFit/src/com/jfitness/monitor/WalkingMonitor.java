@@ -244,20 +244,28 @@ public class WalkingMonitor extends Monitor {
 	public void defuzzifier() {
 		//COG = sum(W*x)/sum(W)
 		///we need to find the intervals of each one to find the X
-//		float interval1, interval2, interval3;
-//		if(insufficientOutputs.getDegreeOfMembership()>=averageOutputs.getDegreeOfMembership()){
-//			interval1 = average_bad; 
-//		}
-//		else
-//			interval1 = poor;
-//		if(averageOutputs.getDegreeOfMembership()>=sufficientOutputs.getDegreeOfMembership()){
-//			interval2 = average_good;
-//			interval3 = perfect;
-//		}
-//		else{
-//			interval2 = perfect;
-//			interval3 = perfect;
-//		}
+		float[] mAndB = new float[2];
+		float[] x = new float[6];
+		x[0] = 0;
+		
+		mAndB = findLinearFunction(poor, 1, average_bad, 0);
+		x[1] = findInterval(insufficientOutputs.getDegreeOfMembership(), mAndB);
+		
+		mAndB = findLinearFunction(poor, 0, average_bad, 1);
+		x[2] = findInterval(averageOutputs.getDegreeOfMembership(), mAndB);
+
+		mAndB = findLinearFunction(average_good, 1, perfect, 0);
+		x[3] = findInterval(averageOutputs.getDegreeOfMembership(), mAndB);
+		
+		mAndB = findLinearFunction(average_good, 0, perfect, 1);
+		x[4] = findInterval(sufficientOutputs.getDegreeOfMembership(), mAndB);
+		
+		x[5] = 1;
+		
+		float cog = x[1]*insufficientOutputs.getDegreeOfMembership() + x[2]*averageOutputs.getDegreeOfMembership() + x[3]*averageOutputs.getDegreeOfMembership() + x[4]*sufficientOutputs.getDegreeOfMembership() + x[5]*sufficientOutputs.getDegreeOfMembership();
+		cog /= (insufficientOutputs.getDegreeOfMembership() + averageOutputs.getDegreeOfMembership()+sufficientOutputs.getDegreeOfMembership());
+		
+		
 		
 //		float cog = (insufficientOutputs.getDegreeOfMembership()*interval1 + averageOutputs.getDegreeOfMembership()*interval2 + sufficientOutputs.getDegreeOfMembership()*interval3);
 //		cog = cog/(insufficientOutputs.getDegreeOfMembership() + averageOutputs.getDegreeOfMembership()+sufficientOutputs.getDegreeOfMembership());		
