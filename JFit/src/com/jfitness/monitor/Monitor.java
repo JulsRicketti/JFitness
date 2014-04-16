@@ -1,6 +1,8 @@
 package com.jfitness.monitor;
 
 public abstract class Monitor {
+
+	
 	
 	public class FuzzySet{
 		String name;

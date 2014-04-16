@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 
 
+
 public class WalkingMonitor extends Monitor {
 	
 	//set names
@@ -23,11 +24,8 @@ public class WalkingMonitor extends Monitor {
 		static final float average_good = average_bad + poor; //(75)
 		
 		//distance definitions 
-		static final float weeklyMinDistance = 5500;
-		static final float dailyMinDistance = weeklyMinDistance/7;
-		static final float goodDistance = 1000;
-		
-		static float averageSpeed; //I have to get this information from the user's profile
+		static final float dailyMinDistance = MonitorObserver.currentDailyDistance;
+		static final float goodDistance = dailyMinDistance + dailyMinDistance/2; // in case of testing, put 1000
 		
 		FuzzySet[] timeSet;
 		FuzzySet[] distanceSet;
@@ -247,46 +245,3 @@ public class WalkingMonitor extends Monitor {
 
 
 }
-
-
-//I may use this but only later... So for now I separated it from the rest.
-//FuzzySet speedFuzzifier(float speedInput, float averageSpeed){
-//FuzzySet result;
-//float []mAndB = new float[2];
-//float membershipBad=0, membershipAverage=0, membershipGood=0;
-//if(speedInput<averageSpeed){
-//	mAndB = findLinearFunction(speedInput, 1, averageSpeed, 0);
-//	membershipBad = findDegreeOfMembership(speedInput, mAndB);
-//	
-//	mAndB = findLinearFunction(speedInput, 0, averageSpeed, 1);
-//	membershipAverage = findDegreeOfMembership(speedInput, mAndB);
-//	
-//	membershipGood=0;
-//}
-//if(speedInput==averageSpeed){
-//	membershipBad =0;
-//	membershipAverage =1;
-//	membershipGood=0;
-//}
-////revise this one!!!!
-//if(speedInput>averageSpeed){
-//	membershipBad=0;
-//	
-//	mAndB = findLinearFunction(speedInput, 1, averageSpeed, 0);
-//	membershipAverage = findDegreeOfMembership(speedInput, mAndB);
-//	
-//	mAndB = findLinearFunction(speedInput, 0, averageSpeed, 1);
-//	membershipGood = findDegreeOfMembership(speedInput, mAndB);
-//}
-//
-//if(speedInput>=2*averageSpeed){
-//	membershipBad=0;
-//	membershipAverage=0;
-//	membershipGood=1;
-//}
-//
-//result = max( membershipBad, BAD, membershipAverage, AVERAGE);
-//result = max(membershipGood, GOOD, result.getDegreeOfMembership(), result.getName());
-//		
-//return result;
-//}

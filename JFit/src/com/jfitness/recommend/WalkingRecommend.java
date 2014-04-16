@@ -9,108 +9,68 @@ import com.jfitness.others.Mediator;
 //try to make it a singleton
 public class WalkingRecommend implements Recommend {
 
+	static boolean completedWeeklyDistance = false;
 	static int numberOfDays = 7; //this is the number of days we take into consideration
 	
 	static float weeklyMinDistance = 5500;
 	static float dailyMinDistance = weeklyMinDistance/numberOfDays;
 	
+	static float currentDailyMinDistance;
+	
+	ArrayList <String> activityDateHistory = new ArrayList<String>();
 	ArrayList <String> recommendationHistory = new ArrayList<String>();
+	ArrayList <String> activitiesHistory = new ArrayList<String>();
+	ArrayList <String> analyseHistory = new ArrayList<String>();
+	
 	Mediator mediator = new Mediator();
 	
 	float recommendationNumber;
 	
 	
+	public WalkingRecommend(){
+		this.activitiesHistory = mediator.getActivityDateHistory();
+		this.recommendationHistory = mediator.getRecommendationHistory();
+		this.activitiesHistory = mediator.getActivityHistory();
+		this.analyseHistory = mediator.getAnalysesHistory();
+		
+	}
+	
 	//take a look at context! I am not sure what this is!
 	public String recommend(Context context){
-		recommendationHistory = mediator.getRecommendationHistory();
-		
-		//if it's the first time an exercise is done
-		if(recommendationHistory.isEmpty()){
-			recommendationNumber = dailyMinDistance;
-			return Float.toString(recommendationNumber);
+		//if this is the first time the person is walking
+		if(activitiesHistory.isEmpty()){
+			return Float.toString(dailyMinDistance);
 		}
 		else{
-			
-			DateTime lastWalkingDate = new DateTime(mediator.activityDateHistory.get(mediator.activityDateHistory.size()-1));
-			if(getDaysInBetween(lastWalkingDate)<=numberOfDays){
-				return Float.toString(calculateRecommendation(recommendationHistory));
-			}
-			else{
-				//start over.
-				recommendationNumber = dailyMinDistance;
-				return Float.toString(recommendationNumber);
-			}
-			
-		}
-	}
-	
-	//will verify the significance of how distant the days are from each other
-	int verifyDayDistance(ArrayList<String> history){
-		DateTime today = new DateTime();
-		DateTime[] lastSevenActivities = new DateTime[numberOfDays];
-		for(int i=0; i<numberOfDays; i++)
-			lastSevenActivities[i] = new DateTime(mediator.activityDateHistory.get((mediator.activityDateHistory.size()-1)-i));
-		
-		if(getDaysInBetween(lastSevenActivities[0])>7){
-			return 0;
-		}
-		if(getDaysInBetween(lastSevenActivities[1])>10){
-			return 1;
-		}
-		if(getDaysInBetween(lastSevenActivities[2])>12){
-			return 2;
-		}
-		if(getDaysInBetween(lastSevenActivities[3])>13){
-			return 3;
-		}		
-		if(getDaysInBetween(lastSevenActivities[4])>14){
-			return 4;
-		}
-		if(getDaysInBetween(lastSevenActivities[5])>15){
-			return 5;
-		}
-		return -1;
-	}
-	
-	
-	float calculateRecommendation(ArrayList<String> history){		
-		DateTime today = new DateTime();
-		DateTime[] lastSevenActivityDates = new DateTime[numberOfDays];
-		float[] lastSevenActivities = new float[numberOfDays];
-		for(int i=0; i<numberOfDays; i++){
-			lastSevenActivityDates[i] = new DateTime(mediator.activityDateHistory.get((mediator.activityDateHistory.size()-1)-i));
-			lastSevenActivities[i] = Float.parseFloat(mediator.activityHistory.get((mediator.activityHistory.size()-1)-i));
-		}
-
-		if(verifyDayDistance(history)==-1){ //this means limits between days weren't surpassed
-			int distanceFirstAndLastDay = getDaysInBetween(lastSevenActivityDates[6]);
-			int totalDistance =0;
-			for(int i=0; i<lastSevenActivities.length;i++){
-				totalDistance += lastSevenActivities[i];
-			}
-			
-			if(distanceFirstAndLastDay<=7){
-				if(totalDistance/numberOfDays < dailyMinDistance){
+			//verifies if the user hasn't already done an activity today
+			if(!isSameDay()){
+				if(currentDailyMinDistance==dailyMinDistance){ //we can't go any lower than 5.5km per week
+					return Float.toString(dailyMinDistance);
+				}
+				else{
 					
 				}
 			}
 			else{
 				
+				
 			}
 		}
-		else{
-			
-		}
-
-		
-		return 0;
+		return null;
 	}
 	
-	//function that will get the last time the exercise was performed
-	int getDaysInBetween(DateTime lastWalkingDate){
-		DateTime today = new DateTime();
-		
-		//we need to find out how many days we have in between the two dates
-		return Days.daysBetween(lastWalkingDate, today).getDays();
+	DateTime getLastDate(){
+		DateTime lastDate = new DateTime(activityDateHistory.get(activityDateHistory.size()-1));
+		return lastDate;
 	}
+	
+	boolean isSameDay(){
+		DateTime today = new DateTime();
+		if(Days.daysBetween(getLastDate(), today).getDays() == 0){
+			return true;
+		}
+		return false;
+	}
+	
+
 }
