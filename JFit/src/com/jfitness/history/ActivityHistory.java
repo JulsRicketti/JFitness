@@ -8,14 +8,16 @@ public class ActivityHistory {
 	public ArrayList <String> recommendation;
 	public ArrayList <String> activityDate;
 	public ArrayList <String> activity;
-	public ArrayList <String> analyses;
+	public ArrayList <String> monitor;
+	
+	public History history;
 	
 	public ActivityHistory(){
 		recommendation = new ArrayList<String>();
 		recommendationDate = new ArrayList<String>();
 		activityDate = new ArrayList<String>();
 		activity = new ArrayList<String>();
-		analyses = new ArrayList<String>();
+		monitor = new ArrayList<String>();
 	}
 	
 	public ArrayList<String> getRecommendationDate() {
@@ -42,12 +44,13 @@ public class ActivityHistory {
 	public void setActivity(ArrayList<String> activity) {
 		this.activity = activity;
 	}
-	public ArrayList<String> getAnalyses() {
-		return analyses;
+
+	public ArrayList<String> getMonitor() {
+		return monitor;
 	}
-	public void setAnalyses(ArrayList<String> analyses) {
-		this.analyses = analyses;
-	}	
-	
-	
+
+	public void setMonitor(ArrayList<String> monitor) {
+		this.monitor = monitor;
+	}
+
 }

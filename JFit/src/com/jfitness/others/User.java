@@ -22,7 +22,7 @@ public class User {
 	public User(Context context){
 		dbAdapter = new DatabaseAdapter(context);
 		dbAdapter.open();
-		Cursor userData = dbAdapter.getAllData(DatabaseAdapter.USER_PROFILE_TABLE);
+		Cursor userData = dbAdapter.getAllUserRecords();
 		userData.moveToFirst();
 		
 		age = userData.getString(userData.getColumnIndex(DatabaseAdapter.AGE));

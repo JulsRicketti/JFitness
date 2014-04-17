@@ -41,7 +41,7 @@ public class Mediator {
 		recommendationDateHistory = history.getWalkerHistory(context).recommendationDate;
 		activityHistory = history.getWalkerHistory(context).activity;
 		activityDateHistory = history.getWalkerHistory(context).activityDate;
-		analysesHistory = history.getWalkerHistory(context).analyses;
+		analysesHistory = history.getWalkerHistory(context).monitor;
 		
 	}
 	
@@ -50,7 +50,7 @@ public class Mediator {
 		 recommendationDateHistory = history.getRunnerHistory(context).recommendationDate;
 		 activityHistory = history.getRunnerHistory(context).activity;
 		 activityDateHistory = history.getRunnerHistory(context).activityDate;
-		 analysesHistory = history.getRunnerHistory(context).analyses;
+		 analysesHistory = history.getRunnerHistory(context).monitor;
 	}
 	
 	 void setWeightLossHistory(Context context){
@@ -58,7 +58,7 @@ public class Mediator {
 		 recommendationDateHistory = history.getHistory("WeightLossHistoryTable").recommendationDate;
 		 activityHistory = history.getHistory("WeightLossHistoryTable").activity;
 		 activityDateHistory = history.getHistory("WeightLossHistoryTable").activityDate;
-		 analysesHistory = history.getHistory("WeightLossHistoryTable").analyses;
+		 analysesHistory = history.getHistory("WeightLossHistoryTable").monitor;
 	}
 
 
@@ -85,5 +85,7 @@ public class Mediator {
 	public ArrayList<String> getAnalysesHistory() {
 		return analysesHistory;
 	}
+	
+	//functions to send the things things to the database:
 	
 }

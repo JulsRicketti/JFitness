@@ -15,6 +15,14 @@ public class History {
 	ActivityHistory runnerHistory;
 	ActivityHistory weightLossHistory;
 	
+	public History(){
+		
+	}
+	
+	public History(String tableName, String recommendationDate, String recommendation, String activityDate, String activity, String monitor){
+		dbAdapter.insertActivity(tableName, recommendation, activityDate, activity, monitor);
+	}
+	
 	boolean isWalkerEmpty(Context context){
 		dbAdapter = new DatabaseAdapter(context);
 		dbAdapter.open();
@@ -66,17 +74,17 @@ public class History {
 	
 	public ActivityHistory getHistory(String tableName){
 		
-		Cursor history = dbAdapter.getAllData(tableName);
+		Cursor history = dbAdapter.getAllActivityRecords(tableName);
 		ActivityHistory activity = new ActivityHistory();
 		history.moveToFirst();
 		while(!history.isAfterLast()){
 			activity.recommendation.add(history.getString(history.getColumnIndex(DatabaseAdapter.RECOMMENDATION)));
-			activity.recommendationDate.add(history.getString(history.getColumnIndex(DatabaseAdapter.RECOMMENDATION_DATE)));
 			activity.activityDate.add(history.getString(history.getColumnIndex(DatabaseAdapter.ACTIVITY_DATE)));
 			activity.activity.add(history.getString(history.getColumnIndex(DatabaseAdapter.ACTIVITY)));
-			activity.analyses.add(history.getString(history.getColumnIndex(DatabaseAdapter.ANALYSES)));
+			activity.monitor.add(history.getString(history.getColumnIndex(DatabaseAdapter.MONITOR)));
 			history.moveToNext();			
 		}
 		return activity;
 	}
+
 }

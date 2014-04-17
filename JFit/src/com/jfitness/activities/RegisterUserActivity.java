@@ -7,6 +7,7 @@ import com.example.jfit.R.id;
 import com.example.jfit.R.layout;
 import com.example.jfit.R.menu;
 import com.jfitness.persistance.DatabaseAdapter;
+import com.jfitness.persistance.DatabaseAdapter;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -27,7 +28,8 @@ import android.widget.Toast;
 
 public class RegisterUserActivity extends Activity {
 
-	DatabaseAdapter dbadapter;
+//	DatabaseAdapter dbadapter;
+	DatabaseAdapter dbAdapter;
 	
 	Button finishRegisterButton;
 	
@@ -61,8 +63,8 @@ public class RegisterUserActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register_user);
 		
-		dbadapter = new DatabaseAdapter(this);
-		dbadapter = dbadapter.open();
+		dbAdapter = new DatabaseAdapter(this);
+		dbAdapter = dbAdapter.open();
 		
 		ageRegisterEditText = (EditText)findViewById(R.id.ageRegisterEditText);
 		ageRegisterEditText.addTextChangedListener(ageTextWatcher);
@@ -129,9 +131,9 @@ public class RegisterUserActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if(!parameter.equals("Select parameter") &&!sex.equals("Select Sex") && !weight.equals("") && !height.equals("") && !age.equals("") && verifyCheckBoxes()){
-					dbadapter.deleteUserTable(); //we make sure only one is made for this application
-					dbadapter.EnterCreateUser(age, weight, height, sex, weightLossObjective, runningObjective, walkingObjective, parameter);
-					Toast.makeText(getApplicationContext(), "Done!  "+dbadapter.userProfileIsEmpty(), Toast.LENGTH_SHORT).show();
+					dbAdapter.deleteAll(dbAdapter.USER_PROFILE_TABLE); //we make sure only one is made for this application
+					dbAdapter.insertUser(age, weight, height, sex, weightLossObjective, runningObjective, walkingObjective, parameter);
+					Toast.makeText(getApplicationContext(), "Done!  "+dbAdapter.getAllUserRecords().getCount(), Toast.LENGTH_SHORT).show();
 					Intent i  = new Intent(RegisterUserActivity.this,DashboardActivity.class);
 					startActivity(i);
 				}

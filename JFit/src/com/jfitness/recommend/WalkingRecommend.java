@@ -20,7 +20,7 @@ public class WalkingRecommend implements Recommend {
 	ArrayList <String> activityDateHistory = new ArrayList<String>();
 	ArrayList <String> recommendationHistory = new ArrayList<String>();
 	ArrayList <String> activitiesHistory = new ArrayList<String>();
-	ArrayList <String> analyseHistory = new ArrayList<String>();
+	ArrayList <String> monitorHistory = new ArrayList<String>();
 	
 	Mediator mediator = new Mediator();
 	
@@ -31,11 +31,10 @@ public class WalkingRecommend implements Recommend {
 		this.activitiesHistory = mediator.getActivityDateHistory();
 		this.recommendationHistory = mediator.getRecommendationHistory();
 		this.activitiesHistory = mediator.getActivityHistory();
-		this.analyseHistory = mediator.getAnalysesHistory();
+		this.monitorHistory = mediator.getAnalysesHistory();
 		
 	}
 	
-	//take a look at context! I am not sure what this is!
 	public String recommend(Context context){
 		//if this is the first time the person is walking
 		if(activitiesHistory.isEmpty()){
