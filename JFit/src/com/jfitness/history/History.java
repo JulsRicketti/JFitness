@@ -8,73 +8,72 @@ import android.database.Cursor;
 import com.jfitness.persistance.DatabaseAdapter;
 
 public class History {
-	
-	DatabaseAdapter dbAdapter;
+	DatabaseAdapter DatabaseAdapter;
 	
 	ActivityHistory walkerHistory;
 	ActivityHistory runnerHistory;
 	ActivityHistory weightLossHistory;
 	
-	public History(){
+	public History(){	
 		
 	}
-	
 	public History(String tableName, String recommendationDate, String recommendation, String activityDate, String activity, String monitor){
-		dbAdapter.insertActivity(tableName, recommendation, activityDate, activity, monitor);
+		DatabaseAdapter.insertActivity(tableName, recommendation, activityDate, activity, monitor);
 	}
 	
 	boolean isWalkerEmpty(Context context){
-		dbAdapter = new DatabaseAdapter(context);
-		dbAdapter.open();
-		return dbAdapter.isEmpty(DatabaseAdapter.WALKER_HISTORY_TABLE);
+		DatabaseAdapter = new DatabaseAdapter(context);
+		DatabaseAdapter.open();
+		return DatabaseAdapter.isEmpty(DatabaseAdapter.WALKER_HISTORY_TABLE);
 	}
 	
 	boolean isRunnerEmpty(Context context){
-		dbAdapter = new DatabaseAdapter(context);
-		dbAdapter.open();
-		return dbAdapter.isEmpty(DatabaseAdapter.RUNNER_HISTORY_TABLE);
+		DatabaseAdapter = new DatabaseAdapter(context);
+		DatabaseAdapter.open();
+		return DatabaseAdapter.isEmpty(DatabaseAdapter.RUNNER_HISTORY_TABLE);
 	}
 	
 	boolean isWeightLossEmpty(Context context){
-		dbAdapter = new DatabaseAdapter(context);
-		dbAdapter.open();
-		return dbAdapter.isEmpty(DatabaseAdapter.WEIGHT_LOSS_HISTORY_TABLE);
+		DatabaseAdapter = new DatabaseAdapter(context);
+		DatabaseAdapter.open();
+		return DatabaseAdapter.isEmpty(DatabaseAdapter.WEIGHT_LOSS_HISTORY_TABLE);
 	}
 	
 	public ActivityHistory getWalkerHistory(Context context){
-		dbAdapter = new DatabaseAdapter(context);
-		dbAdapter.open();
+		DatabaseAdapter = new DatabaseAdapter(context);
+		DatabaseAdapter.open();
 		
-		if(dbAdapter.isEmpty(DatabaseAdapter.WALKER_HISTORY_TABLE)){
-			dbAdapter.close();
+		if(DatabaseAdapter.isEmpty(DatabaseAdapter.WALKER_HISTORY_TABLE)){
+			DatabaseAdapter.close();
 			return null;
 		}
 		else{
-			walkerHistory = getHistory(DatabaseAdapter.WALKER_HISTORY_TABLE);
+			walkerHistory = getHistory(DatabaseAdapter.WALKER_HISTORY_TABLE, context);
 	
-			dbAdapter.close();
+			DatabaseAdapter.close();
 			return walkerHistory;
 		}
 	}
 	
 	public ActivityHistory getRunnerHistory(Context context){
-		dbAdapter = new DatabaseAdapter(context);
-		dbAdapter.open();
+		DatabaseAdapter = new DatabaseAdapter(context);
+		DatabaseAdapter.open();
 		
-		if(dbAdapter.isEmpty(DatabaseAdapter.RUNNER_HISTORY_TABLE)){
+		if(DatabaseAdapter.isEmpty(DatabaseAdapter.RUNNER_HISTORY_TABLE)){
 			return null;
 		}
 		else{
-			runnerHistory = getHistory(DatabaseAdapter.WALKER_HISTORY_TABLE);		
+			runnerHistory = getHistory(DatabaseAdapter.WALKER_HISTORY_TABLE, context);		
 	
-			dbAdapter.close();
+			DatabaseAdapter.close();
 			return runnerHistory;
 		}
 	}
 	
-	public ActivityHistory getHistory(String tableName){
-		
-		Cursor history = dbAdapter.getAllActivityRecords(tableName);
+	public ActivityHistory getHistory(String tableName, Context context){
+		DatabaseAdapter= new DatabaseAdapter(context) ; 
+		DatabaseAdapter.open();
+		Cursor history = DatabaseAdapter.getAllActivityRecords(tableName);
 		ActivityHistory activity = new ActivityHistory();
 		history.moveToFirst();
 		while(!history.isAfterLast()){
@@ -85,6 +84,7 @@ public class History {
 			history.moveToNext();			
 		}
 		return activity;
+
 	}
 
 }
